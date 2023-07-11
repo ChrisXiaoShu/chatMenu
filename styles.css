@@ -1,0 +1,58 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the animation container */
+#animation-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style the diamond container */
+#diamond-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s ease-in-out;
+}
+
+/* Style the diamond shape */
+.diamond {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f;
+    transform: rotate(45deg);
+}
+
+/* Hide the content initially */
+.hidden {
+    display: none;
+}
+
+/* Define the spin animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(5turn);
+    }
+}
+
+/* Define the fadeIn animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
