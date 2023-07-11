@@ -4,6 +4,11 @@ body, html {
     padding: 0;
 }
 
+/* Set the website background color */
+body {
+    background-color: #eb6484;
+}
+
 /* Style the animation container */
 #animation-container {
     display: flex;
@@ -28,8 +33,18 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #f0f;
+    background-color: #f7cbd2;
     transform: rotate(45deg);
+}
+
+/* Style the content text */
+#content-text {
+    color: #f7cbd2; /* Updated text color */
+}
+
+/* Style the content text */
+#content-heading {
+    color: #f7cbd2; /* Updated text color */
 }
 
 /* Hide the content initially */
