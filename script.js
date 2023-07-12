@@ -1,5 +1,7 @@
 // a function that will format the text with line breaks
 // so that it can be displayed in the HTML
+let chatHistory = [];
+
 function formatText(text) {
     var formattedText = "";
     var textArray = text.split("\n");
@@ -9,14 +11,14 @@ function formatText(text) {
     return formattedText;
 }
 
-function sendOpentAIRequest(chatHistory) {
+function sendOpentAIRequest(history) {
   var messages = [
     { role: "system", content: prompt },
     { role: "user", content: prompt }
   ]
-  if (chatHistory.length > 0) {
+  if (history.length > 0) {
     // append chatHistory after message list
-    messages = messages.concat(chatHistory);
+    messages = messages.concat(history);
   }
 
 
@@ -42,6 +44,7 @@ function sendOpentAIRequest(chatHistory) {
   .then(response => response.json())
   .then(data => {
     const answer = data.choices[0].message.content.trim();
+    chatHistory.push({ role: "assistant", content: answer });
     contentText.innerHTML = formatText(answer);
       // Show the user input area
       const userInputContainer = document.getElementById("user-input-container");
@@ -89,4 +92,16 @@ document.addEventListener("DOMContentLoaded", function() {
             startBtn.style.animation = "fadeIn 1s ease-in-out";
         }, 1000); // Delay the display of the start button by 1 second
     }, 1000);
+});
+
+const userInput = document.getElementById("user-input");
+
+userInput.addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+    const inputText = userInput.value;
+    // Send OpenAI API request with the inputText
+    chatHistory.push({ role: "user", content: inputText })
+    sendOpentAIRequest(chatHistory);
+    userInput.value = ""; // Clear the input after sending the request
+  }
 });
