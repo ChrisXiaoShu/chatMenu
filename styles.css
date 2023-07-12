@@ -37,6 +37,31 @@ body {
     transform: rotate(45deg);
 }
 
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#content-heading, #content-text, #user-input-container, #startBtn {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#user-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none; /* Hide the input border */
+    background-color: #ed96a8; /* Make the input background transparent */
+    color: white; /* Set the input text color */
+    caret-color: #e44c74; /* Set the caret (cursor) color */
+    outline: none; /* Remove the outline when focused */
+    height: 30px; 
+    font-size: 20px;
+  }
+
 /* Style the content text */
 #content-text {
     color: #f7cbd2; /* Updated text color */

@@ -11,16 +11,20 @@
         <div id="diamond-container">
             <div class="diamond"></div>
         </div>
-        <h2 id="content-heading" class="hidden">歡迎來到浴室酒吧</h2>
-        <p id="content-text" class="hidden">
-            這是一個讓你敞開心扉的地方<br>
-            我是你今天專屬的酒吧占卜師<br>
-            我會探索你最深處的內心慾望<br>
-            找尋出你渴望的那杯酒
-        </p>
-        <button id="start-btn" class="hidden" onclick="startButtonClick()">Start</button>
+        <div id="chat-container" class="centered-container">
+            <h2 id="content-heading" class="hidden">歡迎來到浴室酒吧</h2>
+            <p id="content-text" class="hidden">
+                這是一個讓你敞開心扉的地方<br>
+                我是你今天專屬的酒吧占卜師<br>
+                我會探索你最深處的內心慾望<br>
+                找尋出你渴望的那杯酒
+            </p>
+            <div id="user-input-container" style="display: none;">
+                <input type="text" id="user-input" autofocus> 
+            </div>
+            <button id="start-btn" class="hidden" onclick="startButtonClick()">Start</button>
+        </div>
     </div>
-
     <script src="script.js"></script>
     <script src="constant.js"></script>
 </body>

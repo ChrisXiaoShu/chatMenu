@@ -36,6 +36,9 @@ function startButtonClick() {
     .then(data => {
       const answer = data.choices[0].message.content.trim();
       contentText.innerHTML = formatText(answer);
+        // Show the user input area
+        const userInputContainer = document.getElementById("user-input-container");
+        userInputContainer.style.display = "block";
     })
     .catch(error => {
       console.error("Error:", error);
