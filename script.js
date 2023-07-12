@@ -9,14 +9,24 @@ function formatText(text) {
     return formattedText;
 }
 
-function startButtonClick() {
-  // Hide the start button
-  const startBtn = document.getElementById("start-btn");
-  startBtn.style.display = "none";
+function sendOpentAIRequest(chatHistory) {
+  var messages = [
+    { role: "system", content: prompt },
+    { role: "user", content: prompt }
+  ]
+  if (chatHistory.length > 0) {
+    // append chatHistory after message list
+    messages = messages.concat(chatHistory);
+  }
+
+
   var contentHeading = document.getElementById("content-heading");
   var contentText = document.getElementById("content-text");
   contentHeading.innerHTML = "";
   contentText.innerHTML = "Loading...";
+
+  const userInputContainer = document.getElementById("user-input-container");
+  userInputContainer.style.display = "none";;
 
   fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -26,24 +36,34 @@ function startButtonClick() {
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: prompt },
-        { role: "user", content: prompt }
-      ]
+      messages: messages,
     })
   })
-    .then(response => response.json())
-    .then(data => {
-      const answer = data.choices[0].message.content.trim();
-      contentText.innerHTML = formatText(answer);
-        // Show the user input area
-        const userInputContainer = document.getElementById("user-input-container");
-        userInputContainer.style.display = "block";
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      contentText.innerHTML = "Error occurred. Please try again.";
-    });
+  .then(response => response.json())
+  .then(data => {
+    const answer = data.choices[0].message.content.trim();
+    contentText.innerHTML = formatText(answer);
+      // Show the user input area
+      const userInputContainer = document.getElementById("user-input-container");
+      userInputContainer.style.display = "block";
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    contentText.innerHTML = "Error occurred. Please try again.";
+  });
+}
+    
+
+function startButtonClick() {
+  // Hide the start button
+  const startBtn = document.getElementById("start-btn");
+  startBtn.style.display = "none";
+  var contentHeading = document.getElementById("content-heading");
+  var contentText = document.getElementById("content-text");
+  contentHeading.innerHTML = "";
+  contentText.innerHTML = "Loading...";
+
+  sendOpentAIRequest([]);
 }
 
 
