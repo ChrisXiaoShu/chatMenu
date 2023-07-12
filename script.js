@@ -11,11 +11,13 @@ function formatText(text) {
     return formattedText;
 }
 
-function sendOpentAIRequest(history) {
+function sendOpentAIRequest(history, isEnd=false) {
   var messages = [
     { role: "system", content: prompt },
-    { role: "user", content: prompt }
   ]
+  if (isEnd) {
+    messages = []
+  }
   if (history.length > 0) {
     // append chatHistory after message list
     messages = messages.concat(history);
@@ -47,8 +49,15 @@ function sendOpentAIRequest(history) {
     chatHistory.push({ role: "assistant", content: answer });
     contentText.innerHTML = formatText(answer);
       // Show the user input area
-      const userInputContainer = document.getElementById("user-input-container");
-      userInputContainer.style.display = "block";
+      if(chatHistory.length >= 7) {
+        const userInputContainer = document.getElementById("user-input-container");
+        userInputContainer.style.display = "none";
+        var recommadBtn = document.getElementById("recommad-btn");
+        recommadBtn.classList.remove("hidden");
+      }else {
+        const userInputContainer = document.getElementById("user-input-container");
+        userInputContainer.style.display = "block";
+    }
   })
   .catch(error => {
     console.error("Error:", error);
@@ -67,6 +76,22 @@ function startButtonClick() {
   contentText.innerHTML = "Loading...";
 
   sendOpentAIRequest([]);
+}
+
+function recommadButtonClick() {
+  // Hide the start button
+  const startBtn = document.getElementById("recommad-btn");
+  startBtn.style.display = "none";
+  var contentHeading = document.getElementById("content-heading");
+  var contentText = document.getElementById("content-text");
+  contentHeading.innerHTML = "";
+  contentText.innerHTML = "Loading...";
+
+  // get the last element of chatHistory
+  summary = chatHistory.slice(-1);
+  summary.push({ role: "user", content: menuPrompt });
+
+  sendOpentAIRequest(summary, true);
 }
 
 
@@ -98,8 +123,11 @@ const userInput = document.getElementById("user-input");
 
 userInput.addEventListener("keyup", function(event) {
   if (event.key === "Enter") {
-    const inputText = userInput.value;
+    let inputText = userInput.value;
     // Send OpenAI API request with the inputText
+    if (chatHistory.length >= 5) {
+      inputText = inputText + `，你的回答請直接條列式的幫我總結我的需求，不要我推薦任何酒款，在最後加上這句:需要為您推薦一款調酒嗎`;
+    }
     chatHistory.push({ role: "user", content: inputText })
     sendOpentAIRequest(chatHistory);
     userInput.value = ""; // Clear the input after sending the request

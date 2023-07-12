@@ -73,7 +73,7 @@ body {
 }
 
 /* Style the start button */
-#start-btn {
+#start-btn, #recommad-btn{
     padding: 10px 20px;
     font-size: 16px;
     background-color: #d26a82;
