@@ -1,3 +1,14 @@
+// a function that will format the text with line breaks
+// so that it can be displayed in the HTML
+function formatText(text) {
+    var formattedText = "";
+    var textArray = text.split("\n");
+    for (var i = 0; i < textArray.length; i++) {
+        formattedText += textArray[i] + "<br>";
+    }
+    return formattedText;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     setTimeout(function() {
         var diamondContainer = document.getElementById("diamond-container");
@@ -19,5 +30,35 @@ document.addEventListener("DOMContentLoaded", function() {
             startBtn.classList.remove("hidden");
             startBtn.style.animation = "fadeIn 1s ease-in-out";
         }, 1000); // Delay the display of the start button by 1 second
+
+        startBtn.addEventListener("click", function() {
+            contentHeading.innerHTML = "";
+            contentText.innerHTML = "Loading...";
+
+            fetch("https://api.openai.com/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + apiKey
+              },
+              body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: [
+                  { role: "system", content: prompt },
+                  { role: "user", content: prompt }
+                ]
+              })
+            })
+              .then(response => response.json())
+              .then(data => {
+                const answer = data.choices[0].message.content.trim();
+                contentText.innerHTML = formatText(answer);
+              })
+              .catch(error => {
+                console.error("Error:", error);
+                contentText.innerHTML = "Error occurred. Please try again.";
+              });
+          });
+          
     }, 1000);
 });
